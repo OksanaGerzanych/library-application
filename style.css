@@ -1,0 +1,29 @@
+#root {
+display: flex;
+height: 100vh;
+}
+.left {
+width: 40% ;
+background-color: rgb(201, 246, 129);
+}
+.right {
+width: 60%;
+background-color: rgb(246, 184, 184);
+}
+
+.title {
+text-align: center;
+font-size: 26px;
+font-family: monospace;
+}
+
+.button {
+  color: rgb(7, 44, 7);;
+  width: 150px;
+  font-size: 16px;  
+  font-family: monospace;
+  padding: 10px;
+  margin: 76px; 
+  background-color: rgb(69, 98, 69);
+  border: 1px solid rgb(7, 44, 7);
+}
