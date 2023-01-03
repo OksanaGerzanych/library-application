@@ -60,14 +60,47 @@ const button = document.createElement("button");
 button.textContent = "ADD"
 button.classList.add("button");
 
-
 leftDiv.append(title, list, button);
 
 function renderBooksList(){
-    const markup = books
-    .map(({ id, title }) => `<li class = "item" id = "${id}"><p class = "titele-book" >${title}</p><button class = "btn-del">Del</button><button class = "btn-edit">Edit</button></li>`)
-    .join('');
-    
-  list.innerHTML = markup;
+  const markup = books
+  .map(({ id, title }) => `<li class = "item" id = "${id}"><p class = "titele-book" >${title}</p><button class = "btn-del">Del</button><button class = "btn-edit">Edit</button></li>`)
+  .join('');
+  list.innerHTML = ""; 
+  list.insertAdjacentHTML("beforeend", markup);
+  const booksTitle = document.querySelectorAll('.titele-book');
+  booksTitle.forEach(title => title.addEventListener('click', renderPreview));  
+  const btnDel = document.querySelectorAll('.btn-del');
+  btnDel.forEach(btn => btn.addEventListener('click', deleteBook));
 }
 renderBooksList()
+
+
+
+function renderPreview(event) {
+  const book = books.find(({ title }) => title === event.target.textContent);
+  console.log(book);
+  const markup = createPreviewMarkup(book);
+  rightDiv.innerHTML = " ";
+  rightDiv.insertAdjacentHTML("beforeend", markup);
+}
+
+function createPreviewMarkup({id, title, author, img, plot}) {
+  const markupPreview = 
+  `<div class="preview-box" data-id="${id}">
+  <h2 class="preview-title">${title}</h2>
+  <p class="preview-author">${author}</p> 
+  <img src="${img}" alt = "${title}" class="img">
+  <p class="preview-text">${plot}</p>
+  </div>`
+  return markupPreview;
+}
+
+function deleteBook(evn) {
+  const id = evn.target.parentNode.id;
+  // console.log(id);
+  const newBooks = books.filter(book => book.id !== id);
+  console.log(newBooks);
+  books = newBooks;
+  renderBooksList();
+}

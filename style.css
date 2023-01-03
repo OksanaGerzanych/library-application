@@ -3,29 +3,31 @@ display: flex;
 height: 100vh;
 }
 .left {
-padding: 10px;
+padding: 50px 10px;
 width: 40% ;
-background-color: rgb(201, 246, 129);
+background-color: rgb(141, 190, 61);
 }
 .right {
 padding: 10px;
 width: 60%;
-background-color: rgb(246, 184, 184);
+background-color: rgb(250, 216, 93);
 }
 
 .title {
 text-align: center;
 font-size: 26px;
 font-family: monospace;
+
 }
 
 .button {
   color: rgb(7, 44, 7);;
-  width: 150px;
+  width: 120px;
   font-size: 16px;  
   font-family: monospace;
   padding: 10px;
-  margin: 76px; 
+  margin: 30px 176px; 
+ 
   background-color: rgb(69, 98, 69);
   border: 1px solid rgb(7, 44, 7);
 }
@@ -38,11 +40,39 @@ display: flex;
 align-items: center;
 font-family: monospace;
 font-size: 16px;
+
+}
+.titele-book {
+margin-right: auto;
 }
 
-.item button {
-color: rgb(7, 44, 7);
-background-color: rgb(69, 98, 69);
+.btn-del, .btn-edit {
+color: rgb(8, 20, 8);
+background-color: rgb(36, 121, 36);
 border: 1px solid rgb(7, 44, 7);
-margin-right: 20px;
+width: 50px;
+
 }
+.btn-edit{
+  margin-left: 20px;
+}
+.preview-box{
+padding: 50px;
+}
+.preview-title{
+text-align: center;
+font-size: bold;
+font-size: 32px;
+}
+.preview-author{
+font-size: 16px;
+
+}
+
+.preview-text{
+  text-align: justify;
+  font-size: 20px;
+}
+/* .img{
+  text-align: center;
+} */

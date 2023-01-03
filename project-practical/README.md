@@ -1,1 +1,0 @@
-# projeck-practical
