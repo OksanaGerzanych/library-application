@@ -39,7 +39,10 @@ const data = [
       }
 
 ]
-localStorage.setItem('books', JSON.stringify(data))
+if (!JSON.parse(localStorage.getItem("books"))) {
+  localStorage.setItem('books', JSON.stringify(data));
+}
+
 
 const root = document.querySelector('#root');
 
@@ -66,8 +69,14 @@ button.addEventListener('click', addBook);
 
 function renderBooksList() {
   const books = JSON.parse(localStorage.getItem("books"))
+  
   const markup = books
-  .map(({ id, title }) => `<li class = "item" id = "${id}"><p class = "titele-book" >${title}</p><button class = "btn-del">Del</button><button class = "btn-edit">Edit</button></li>`)
+    .map(({ id, title }) =>
+      `<li class = "item" id = "${id}">
+      <p class = "titele-book" >${title}</p>
+      <button class = "btn-del">Del</button>
+      <button class = "btn-edit">Edit</button>
+      </li>`)
   .join('');
   list.innerHTML = ""; 
   list.insertAdjacentHTML("beforeend", markup);
@@ -75,6 +84,8 @@ function renderBooksList() {
   booksTitle.forEach(title => title.addEventListener('click', renderPreview));  
   const btnDel = document.querySelectorAll('.btn-del');
   btnDel.forEach(btn => btn.addEventListener('click', deleteBook));
+  const btnEdit = document.querySelectorAll('.btn-edit')
+  btnEdit.forEach(btn => btn.addEventListener('click', editBook));
 }
 renderBooksList()
 
@@ -108,6 +119,9 @@ function deleteBook(evn) {
   console.log(newBooks);
   localStorage.setItem("books", JSON.stringify(newBooks));
   renderBooksList();
+  setTimeout(() => {
+   alert("Book was succsesfully deleted")   
+    }, 300)
 }
 function addBook() {
   console.log("add")
@@ -118,7 +132,7 @@ function addBook() {
     img: "",
     plot: ""
   };
-  const markup = createFormMarkup()
+  const markup = createFormMarkup(newBook)
   rightDiv.insertAdjacentHTML('beforeend', markup)
   valueForm(newBook);
   const formEl = document.querySelector('form');
@@ -136,23 +150,31 @@ function addBook() {
     books.push(newBook);
     localStorage.setItem('books', JSON.stringify(books));
     renderBooksList();
-    const createPreviewMarkup
+    
+    const markupPreview = createPreviewMarkup(newBook)
+    rightDiv.innerHTML = "";
+    rightDiv.insertAdjacentHTML('beforeend', markupPreview)
+    
   }
+  setTimeout(() => {
+   alert("Book was succsesfully Added")   
+    }, 300)
 }
 
-function createFormMarkup() {
+function createFormMarkup({ title, author, img, plot }) {
+  
   const markup = `<form >
       <label>Title
-        <input type="text" name="title" />
+        <input type="text" name="title" value = "${author}"/>
       </label>
       <label>Author
-        <input type="text" name="author" />
+        <input type="text" name="author" value = "${author}" />
       </label>
       <label>Img
-        <input type="text" name="img" />
+        <input type="text" name="img" value = "${img}"/>
       </label>
       <label>Plot
-        <input type="text" name="plot" />
+        <input type="text" name="plot" value = "${plot}"/>
        </label>
         <button>Save</button>
     </form>`
@@ -166,4 +188,30 @@ function valueForm(book) {
    book[evt.target.name] = evt.target.value
 
  }
+}
+
+function editBook(evn) {
+
+  const books = JSON.parse(localStorage.getItem("books"))
+  const id = evn.target.parentNode.id;
+  const targetBook = books.find(book => book.id === id)
+  console.log(targetBook)
+  const formMarkup = createFormMarkup(targetBook);
+  rightDiv.insertAdjacentHTML('beforeend', formMarkup);
+  valueForm(targetBook);
+  const formEl = document.querySelector('form');
+  formEl.addEventListener('submit', onFormSubmit);
+  function onFormSubmit(evt) {
+     evt.preventDefault()
+    const indexBook = books.findIndex(book => book.id === id);
+    books.splice(indexBook, 1, targetBook);
+    localStorage.setItem("books", JSON.stringify(books));
+    renderBooksList();
+    const markupPreview = createPreviewMarkup(targetBook)
+    rightDiv.innerHTML = "";
+    rightDiv.insertAdjacentHTML('beforeend', markupPreview)
+  }
+   setTimeout(() => {
+   alert("Book was succsesfully edited")   
+    }, 300)
 }
